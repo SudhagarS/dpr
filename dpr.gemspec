@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["sudhagar@isudhagar.in"]
 
   spec.summary       = "The simplest Ruby HTTP client."
-  spec.description   = "Dpr lets you to do HTTP directly on URL strings."
+  spec.description   = "The simplest Ruby HTTP client. Dpr lets you do HTTP directly on URL strings."
   spec.homepage      = "https://www.github.com/SudhagarS/dpr"
   spec.license       = "MIT"
 
