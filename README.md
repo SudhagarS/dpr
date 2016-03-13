@@ -1,8 +1,6 @@
 # Dpr
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dpr`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Dpr is the simplest Ruby Http client. It lets you do HTTP directly on URL strings. If a string can respond to_i and return the integer value of the string or 0 if it is not a integer, then it only makes sense to make it respond to http methods also.
 
 ## Installation
 
@@ -12,17 +10,40 @@ Add this line to your application's Gemfile:
 gem 'dpr'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install dpr
-
 ## Usage
+Here is a basic usage of dpr. Calling http_get on a url string returns the parsed response body(hash) and the response code. 
 
-TODO: Write usage instructions here
+```ruby
+resp, code = 'http://api.openweathermap.org/data/2.5/weather?q=London'.http_get
+```
+
+If the string is not a url, dpr methods will return empty hash and -1.
+
+```ruby
+resp, code = 'dasd'.http_get
+resp # {}
+code # -1
+```
+
+### Headers and Parameters
+
+```ruby
+"http://httpbin.org/post".http_post
+                        headers:{ "Accept" => "application/json" }, 
+                        parameters:{ :age => 23, :foo => "bar" }
+```
+
+### Methods
+
+Dpr supports all http methods.
+
+```ruby
+url_string.http_get
+url_string.http_post
+url_string.http_delete
+url_string.http_put
+url_string.http_patch
+```
 
 ## Development
 
@@ -32,7 +53,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/dpr. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/SudhagarS/dpr. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
