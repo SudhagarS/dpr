@@ -1,40 +1,64 @@
 require "dpr/version"
 require 'uri'
-require 'unirest'
+require 'rest-client'
+require 'json'
+require 'addressable/uri'
 
 class String
-  def http_get params: {}, headers: {}
-    to_resp 'get', headers, params
+  def http_get params: {}, headers: {}, timeout: 10
+    to_resp method: :get, headers: headers, params: params, timeout: timeout
   end
 
-  def http_post params: {}, headers: {}
-    to_resp 'post', headers, params
+  def http_post params: {}, headers: {}, timeout: 10
+    to_resp method: :post, headers: headers, params: params, timeout: timeout
   end
 
-  def http_delete params: {}, headers: {}
-    to_resp 'delete', headers, params
+  def http_delete params: {}, headers: {}, timeout: 10
+    to_resp method: :delete, headers: headers, params: params, timeout: timeout
   end
 
-  def http_put params: {}, headers: {}
-    to_resp 'put', headers, params
+  def http_put params: {}, headers: {}, timeout: 10
+    to_resp method: :put, headers: headers, params: params, timeout: timeout
   end
 
-  def http_patch params: {}, headers: {}
-    to_resp 'patch', headers, params
+  def http_patch params: {}, headers: {}, timeout: 10
+    to_resp method: :patch, headers: headers, params: params, timeout: timeout
   end
 
-  def valid_url?
-    uri = URI.parse self
-    uri.kind_of? URI::HTTP
-  rescue URI::InvalidURIError
-    false
-  end
-
-  private
-  def to_resp http_method, headers, params
-    if valid_url?
-      response = Unirest.send http_method, self, headers: headers, parameters: params
-      return response.body, response.code
+  def to_resp method: :get, headers: {}, params: {}, timeout: 10
+    if self =~ URI.regexp
+      begin
+        case method
+          when :get
+            url = self
+            if params.is_a?(Hash) && params.length > 0
+              if url.include? "?"
+                url += "&"
+              else
+                url += "?"
+              end
+              uri = Addressable::URI.new
+              uri.query_values = params
+              url += uri.query
+              url = url.gsub(/\s+/, '%20')
+            end
+            http_response = RestClient::Request.execute(:method => :get, :url => url, :headers => headers, :timeout => timeout)
+          when :post
+            http_response = RestClient::Request.execute(:method => :post, :url => self, :payload => params, :headers => headers, :timeout => timeout)
+          when :put
+            http_response = RestClient::Request.execute(:method => :put, :url => self, :payload => params, :headers => headers, :timeout => timeout)
+          when :delete
+            http_response = RestClient::Request.execute(:method => :delete, :url => self, :payload => params, :headers => headers, :timeout => timeout)
+          when :patch
+            http_response = RestClient::Request.execute(:method => :patch, :url => self, :payload => params, :headers => headers, :timeout => timeout)
+        end
+       rescue RestClient::RequestTimeout
+         raise 'Request Timeout'
+       rescue RestClient::Exception => e
+         http_response = e.response
+      end
+      # response = RestClient::Request.execute(method: http_method, url: self, headers: headers, parameters: params)
+      return JSON.parse(http_response.body), http_response.code
     else
       return {}, -1
     end

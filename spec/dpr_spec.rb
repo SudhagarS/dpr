@@ -46,10 +46,9 @@ describe Dpr do
     expect(code).to eq(-1)
   end
 
-  it 'identifies valid url' do
-    expect("sda".valid_url?).to eq(false)
-    expect("https://www.google.com".valid_url?).to eq(true)
-    expect("http://www.google.com".valid_url?).to eq(true)
-    expect("http://localhost".valid_url?).to eq(true)
+  it 'returns empty hash for invalid url' do
+    resp, code = "asdasd".http_get
+    expect(resp).to eq({})
+    expect(code).to eq(-1)
   end
 end
