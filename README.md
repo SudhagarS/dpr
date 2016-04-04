@@ -1,6 +1,6 @@
 # Dpr
 
-Dpr is the simplest Ruby Http client. It lets you do HTTP directly on URL strings. If a string can respond to_i and return the integer value of the string or 0 if it is not a integer, then it only makes sense to make it respond to http methods also.
+Dpr is the simplest Ruby Http client. It lets you do HTTP directly on URL strings. If a string can respond to_i and return the integer value of the string or 0 if it is not a integer, then it only makes sense to make it respond to http methods also. If you want to do HTTP really fast without much setup or hassle in a pry or IRB session, then Dpr is what you want. 
 
 ## Installation
 
