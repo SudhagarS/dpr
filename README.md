@@ -30,7 +30,7 @@ code # -1
 ```ruby
 "http://httpbin.org/post".http_post
                         headers:{ "Accept" => "application/json" }, 
-                        parameters:{ :age => 23, :foo => "bar" }
+                        params:{ :age => 23, :foo => "bar" }
 ```
 
 ### Methods
