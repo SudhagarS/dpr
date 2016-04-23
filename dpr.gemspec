@@ -19,11 +19,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.11"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency 'bundler', '~> 1.11'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'guard', '~> 2.13', '>= 2.13.0'
   spec.add_development_dependency 'guard-rspec', '~> 4.6', '>= 4.6.3'
   spec.add_development_dependency 'pry', '>= 0.9.10', '< 0.11.0'
-  spec.add_runtime_dependency "rest-client"
+  spec.add_runtime_dependency 'rest-client', '~> 1.8'
+  spec.add_runtime_dependency 'addressable', '~> 2.3', '>= 2.3.2'
 end

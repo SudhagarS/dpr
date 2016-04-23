@@ -4,6 +4,7 @@ require 'rest-client'
 require 'json'
 require 'addressable/uri'
 
+
 class String
   def http_get params: {}, headers: {}, timeout: 10
     to_resp method: :get, headers: headers, params: params, timeout: timeout
@@ -44,7 +45,7 @@ class String
             end
             http_response = RestClient::Request.execute(:method => :get, :url => url, :headers => headers, :timeout => timeout)
           when :post
-            http_response = RestClient::Request.execute(:method => :post, :url => self, :payload => params, :headers => headers, :timeout => timeout)
+            http_response = RestClient::Request.execute(:method => :post, :url => self, :payload => params.to_json, :headers => headers, :timeout => timeout)
           when :put
             http_response = RestClient::Request.execute(:method => :put, :url => self, :payload => params, :headers => headers, :timeout => timeout)
           when :delete
@@ -57,8 +58,12 @@ class String
        rescue RestClient::Exception => e
          http_response = e.response
       end
-      # response = RestClient::Request.execute(method: http_method, url: self, headers: headers, parameters: params)
-      return JSON.parse(http_response.body), http_response.code
+
+      begin
+        return JSON.parse(http_response.body), http_response.code
+      rescue JSON::ParserError
+        return {response: http_response.body}, http_response.code
+      end
     else
       return {}, -1
     end

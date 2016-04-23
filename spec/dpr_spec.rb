@@ -25,9 +25,10 @@ describe Dpr do
   end
 
   it 'does post request' do
-    resp, code = "http://httpbin.org/post".http_post params: {'h': 'hello'}
+    payload = {'h': 'hello'}.to_json
+    resp, code = "http://httpbin.org/post".http_post params: payload, headers: {'content-type': 'application/json'}
     expect(resp['url']).to eq('http://httpbin.org/post')
-    expect(resp['form']['h']).to eq 'hello'
+    expect(resp['data']).not_to be nil
     expect(code).to eq(200)
   end
 

@@ -28,9 +28,9 @@ code # -1
 ### Headers and Parameters
 
 ```ruby
-"http://httpbin.org/post".http_post
-                        headers:{ "Accept" => "application/json" }, 
-                        params:{ :age => 23, :foo => "bar" }
+slack_incoming_hook_url.http_post
+                          headers: { "Content-Type" => "application/json" }, 
+                          params: { text: 'Dpr is so cool yo!' }
 ```
 
 ### Methods
