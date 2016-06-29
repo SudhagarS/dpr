@@ -6,27 +6,29 @@ require 'addressable/uri'
 
 
 class String
-  def http_get params: {}, headers: {}, timeout: 10
+  TIMEOUT = 10
+
+  def http_get params: {}, headers: {}, timeout: TIMEOUT
     to_resp method: :get, headers: headers, params: params, timeout: timeout
   end
 
-  def http_post params: {}, headers: {}, timeout: 10
+  def http_post params: {}, headers: {}, timeout: TIMEOUT
     to_resp method: :post, headers: headers, params: params, timeout: timeout
   end
 
-  def http_delete params: {}, headers: {}, timeout: 10
+  def http_delete params: {}, headers: {}, timeout: TIMEOUT
     to_resp method: :delete, headers: headers, params: params, timeout: timeout
   end
 
-  def http_put params: {}, headers: {}, timeout: 10
+  def http_put params: {}, headers: {}, timeout: TIMEOUT
     to_resp method: :put, headers: headers, params: params, timeout: timeout
   end
 
-  def http_patch params: {}, headers: {}, timeout: 10
+  def http_patch params: {}, headers: {}, timeout: TIMEOUT
     to_resp method: :patch, headers: headers, params: params, timeout: timeout
   end
 
-  def to_resp method: :get, headers: {}, params: {}, timeout: 10
+  def to_resp method: :get, headers: {}, params: {}, timeout: TIMEOUT
     if self =~ URI.regexp
       begin
         case method
